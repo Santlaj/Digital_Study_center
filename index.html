@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduHub - Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+    <script src="admin.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-section">
+                <div class="logo">EH</div>
+                <div class="logo-text">
+                    <h1>Digital Study Center</h1>
+                    <p>Admin Portal</p>
+                </div>
+            </div>
+            <div class="user-profile">
+                <div class="avatar">TC</div>
+                <div>
+                    <div style="font-weight: 600;">Teacher</div>
+                    <div style="font-size: 0.85rem; color: var(--text-muted);">Administrator</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon primary">👨‍🎓</div>
+                    <span class="stat-trend up">↑ 5%</span>
+                </div>
+                <div class="stat-value">187</div>
+                <div class="stat-label">Total Students</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon success">✓</div>
+                    <span class="stat-trend up">↑ 12%</span>
+                </div>
+                <div class="stat-value">92.4%</div>
+                <div class="stat-label">Attendance Rate</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon warning">📹</div>
+                </div>
+                <div class="stat-value">24</div>
+                <div class="stat-label">Classes This Month</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon secondary">📁</div>
+                </div>
+                <div class="stat-value">156</div>
+                <div class="stat-label">Notes Uploaded</div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="switchTab('overview')">📊 Overview</button>
+            <button class="nav-tab" onclick="switchTab('attendance')">✓ Attendance</button>
+            <button class="nav-tab" onclick="switchTab('reports')">📈 View Reports</button>
+            <button class="nav-tab" onclick="switchTab('notes')">📁 Notes Upload</button>
+            <button class="nav-tab" onclick="switchTab('meet')">📹 Create Meet</button>
+            <button class="nav-tab" onclick="switchTab('students')">👥 Students</button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2 class="section-title">⚡ Quick Actions</h2>
+                </div>
+                <div class="quick-actions">
+                    <div class="action-card" onclick="openModal('announcements')">
+                        <div class="action-icon">📢</div>
+                        <div class="action-title">Announcements</div>
+                        <div class="action-desc">Send class updates</div>
+                    </div>
+                    <div class="action-card" onclick="openModal('homework')">
+                        <div class="action-icon">📝</div>
+                        <div class="action-title">Assign Homework</div>
+                        <div class="action-desc">Create assignments</div>
+                    </div>
+                    <div class="action-card" onclick="openModal('reports')">
+                        <div class="action-icon">📊</div>
+                        <div class="action-title">View Reports</div>
+                        <div class="action-desc">Analytics & insights</div>
+                    </div>
+                    <div class="action-card" onclick="openModal('students')">
+                        <div class="action-icon">➕</div>
+                        <div class="action-title">Add Student</div>
+                        <div class="action-desc">Register new student</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Attendance Tab -->
+        <div id="attendance" class="tab-content">
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2 class="section-title">✓ Mark Attendance</h2>
+                    <button class="btn btn-primary" onclick="saveAttendance()">💾 Save Attendance</button>
+                </div>
+
+                <div class="class-tabs">
+                    <div class="class-tab active" onclick="switchClass(8)">Class 8</div>
+                    <div class="class-tab" onclick="switchClass(9)">Class 9</div>
+                    <div class="class-tab" onclick="switchClass(10)">Class 10</div>
+                </div>
+
+                <div class="bulk-actions">
+                    <button class="btn btn-success" onclick="markAllPresent()">✓ Mark All Present</button>
+                    <button class="btn btn-danger" onclick="markAllAbsent()">✗ Mark All Absent</button>
+                </div>
+
+                <div id="attendanceGrid" class="attendance-grid"></div>
+            </div>
+        </div>
+
+        <!-- View Reports Tab -->
+        <div id="reports" class="tab-content">
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2 class="section-title">📈 View Reports</h2>
+                </div>
+
+                <!-- Report Type Tabs -->
+                <div class="class-tabs" style="margin-bottom: 2rem;">
+                    <div class="class-tab active" onclick="switchReportsTab('performance')">👤 Student Analytics</div>
+                    <div class="class-tab" onclick="switchReportsTab('tests')">📝 Test Results</div>
+                    <div class="class-tab" onclick="switchReportsTab('rankings')">🏆 Class Rankings</div>
+                </div>
+
+                <!-- Student Performance Content -->
+                <div id="performanceContent" class="reports-content active">
+                    <div class="class-tabs" style="margin-bottom: 1.5rem;">
+                        <div class="class-tab active" data-report-class="8" onclick="switchReportClass(8)">Class 8</div>
+                        <div class="class-tab" data-report-class="9" onclick="switchReportClass(9)">Class 9</div>
+                        <div class="class-tab" data-report-class="10" onclick="switchReportClass(10)">Class 10</div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>Roll No</th>
+                                    <th>Attendance</th>
+                                    <th>Avg Score</th>
+                                    <th>Progress</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="performanceTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Test Results Content -->
+                <div id="testsContent" class="reports-content">
+                    <div class="class-tabs" style="margin-bottom: 1.5rem;">
+                        <div class="class-tab active" onclick="switchTestClass(8)">Class 8</div>
+                        <div class="class-tab" onclick="switchTestClass(9)">Class 9</div>
+                        <div class="class-tab" onclick="switchTestClass(10)">Class 10</div>
+                    </div>
+
+                    <div class="grid-2" style="margin-bottom: 2rem;">
+                        <div class="stat-card">
+                            <div class="stat-value">78.5%</div>
+                            <div class="stat-label">Class Average</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">Tests Conducted</div>
+                        </div>
+                    </div>
+
+                    <div id="testResultsGrid" class="quick-actions"></div>
+                </div>
+
+                <!-- Rankings Content -->
+                <div id="rankingsContent" class="reports-content">
+                    <div id="rankingsGrid" class="grid-2"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes Upload Tab -->
+        <div id="notes" class="tab-content">
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2 class="section-title">📁 Upload Notes to Google Drive</h2>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label class="form-label">Select Class</label>
+                    <select class="form-select" id="notesClass">
+                        <option value="8">Class 8</option>
+                        <option value="9">Class 9</option>
+                        <option value="10">Class 10</option>
+                    </select>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label class="form-label">Subject</label>
+                    <input type="text" class="form-input" placeholder="Enter subject name (e.g., Mathematics, Science)">
+                </div>
+
+                <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+                    <div class="upload-icon">☁️</div>
+                    <div class="upload-text">Click to upload or drag and drop</div>
+                    <div class="upload-subtext">PDF, DOCX, PPT (Max 25MB)</div>
+                    <input type="file" id="fileInput" style="display: none;" multiple onchange="handleFileUpload(event)">
+                </div>
+            </div>
+        </div>
+
+        <!-- Google Meet Tab -->
+        <div id="meet" class="tab-content">
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2 class="section-title">📹 Create Google Meet Session</h2>
+                </div>
+
+                <form class="meet-form" onsubmit="createMeet(event)">
+                    <div class="form-group">
+                        <label class="form-label">Meeting Title</label>
+                        <input type="text" class="form-input" placeholder="Enter meeting title" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Select Class</label>
+                        <select class="form-select" required>
+                            <option value="">Choose class</option>
+                            <option value="8">Class 8</option>
+                            <option value="9">Class 9</option>
+                            <option value="10">Class 10</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Date & Time</label>
+                        <input type="datetime-local" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Duration (minutes)</label>
+                        <input type="number" class="form-input" placeholder="60" value="60" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Description (Optional)</label>
+                        <textarea class="form-input" rows="3" placeholder="Add class agenda or notes"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">📹 Create Meeting</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Students Tab -->
+        <div id="students" class="tab-content">
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2 class="section-title">👥 Student Management</h2>
+                    <button class="btn btn-primary" onclick="openModal('students')">➕ Add Student</button>
+                </div>
+
+                <div class="student-list" id="studentList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Modal Title</h3>
+                <button class="close-btn" onclick="closeModal()">✕</button>
+            </div>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    
+</body>
+</html>
